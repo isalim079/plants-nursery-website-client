@@ -46,7 +46,7 @@ const Navbar = () => {
                     </div>
                     <a>
                         <img
-                            className="w-4/5"
+                            className="w-4/5 hidden lg:block"
                             src="/src/assets/img/logo.png"
                             alt=""
                         />

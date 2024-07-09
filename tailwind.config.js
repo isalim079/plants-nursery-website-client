@@ -13,7 +13,8 @@ export default {
       }
     },
     colors: {
-      "textGreen": "#4A5F4B"
+      "textGreen": "#4A5F4B",
+      "backgroundLightGreen": "#EDF2E6",
     }
   },
   plugins: [

@@ -1,9 +1,10 @@
+import TopBanner from "./HomeContainer/TopBanner/TopBanner";
 
 
 const Home = () => {
     return (
         <div>
-            This is home
+            <TopBanner />
         </div>
     );
 };
