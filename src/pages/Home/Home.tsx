@@ -1,3 +1,4 @@
+import CategorySection from "./HomeContainer/CategorySection/CategorySection";
 import SearchBar from "./HomeContainer/SearchBar/SearchBar";
 import TopBanner from "./HomeContainer/TopBanner/TopBanner";
 
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <TopBanner />
             <SearchBar />
+            <CategorySection />
         </div>
     );
 };
