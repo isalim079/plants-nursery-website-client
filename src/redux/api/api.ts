@@ -19,8 +19,15 @@ export const baseApi = createApi({
                 }
             },
             providesTags: ['plant']
+        }),
+        getPlantById: builder.query({
+            query: (id) => ({
+                url: `/plantDetails/${id}`,
+                method: 'GET'
+            }),
+            providesTags: ['plant']
         })
     })
 })
 
-export const {useGetPlantsQuery} = baseApi
+export const {useGetPlantsQuery, useGetPlantByIdQuery} = baseApi
