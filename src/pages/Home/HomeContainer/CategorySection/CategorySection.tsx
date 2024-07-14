@@ -47,7 +47,9 @@ const CategorySection = () => {
                                 {category?.categoryName}
                             </h2>
                             <p>{category?.description}</p>
-                            <p className="font-semibold">{category?.priceRange}</p>
+                            <p className="font-semibold">
+                                {category?.priceRange}
+                            </p>
                             <div className="card-actions">
                                 <ButtonPrimary>Show All</ButtonPrimary>
                             </div>
