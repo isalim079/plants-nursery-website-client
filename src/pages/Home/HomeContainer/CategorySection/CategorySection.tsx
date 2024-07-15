@@ -24,7 +24,7 @@ const CategorySection = () => {
     }, []);
 
     return (
-        <div className="max-w-screen-2xl mx-auto mb-24">
+        <div className="max-w-screen-2xl mx-auto mb-24 mt-24">
             <div className="mb-12">
                 <Heading>Explore Our Plant Categories</Heading>
                 <SubHeading>

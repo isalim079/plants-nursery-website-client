@@ -54,7 +54,7 @@ const SearchBar = () => {
             <div className="relative">
                 <input
                     className=" rounded-md w-full py-4 bg-backgroundLightGreen shadow-md px-6 focus:outline-textGreen/50"
-                    placeholder="Search your plants..."
+                    placeholder="Search your plants by title..."
                     type="search"
                     name=""
                     id=""

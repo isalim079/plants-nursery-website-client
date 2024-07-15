@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
+import Loading from "../../../../components/Loading/Loading";
 
 type Plant = {
     _id: string;
@@ -30,20 +31,35 @@ const myStyles = {
 const AllPlants = () => {
     const { data: plants, isLoading } = useGetPlantsQuery({});
 
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+    // Pagination
+
     const [currentPage, setCurrentPage] = useState(1);
 
     const plantsPerPage = 4;
 
     const indexOfLastPlant = currentPage * plantsPerPage;
     const indexOfFirstPlant = indexOfLastPlant - plantsPerPage;
-    const currentPlants = plants?.data.slice(
+
+    const filteredPlants = selectedCategory
+        ? plants?.data.filter(
+              (plant: Plant) => plant.categoryName === selectedCategory
+          )
+        : plants?.data;
+
+    const currentPlants = filteredPlants?.slice(
         indexOfFirstPlant,
         indexOfLastPlant
     );
 
     const pageNumbers = [];
 
-    for (let i = 1; i <= Math.ceil(plants?.data.length / plantsPerPage); i++) {
+    for (
+        let i = 1;
+        i <= Math.ceil(filteredPlants?.length / plantsPerPage);
+        i++
+    ) {
         pageNumbers.push(i);
     }
 
@@ -63,17 +79,22 @@ const AllPlants = () => {
         }
     };
 
+    const handleCategoryChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const category = event.target.value;
+        if (category === "All Categories") {
+            setSelectedCategory("");
+        } else {
+            setSelectedCategory(category);
+        }
+        setCurrentPage(1); // Reset to first page on category change
+    };
+
+    // pagination ended
+
     if (isLoading) {
-        return (
-            <div className="max-w-screen-2xl mx-auto mb-24">
-                <div className="flex justify-center flex-col gap-4">
-                    <div className="skeleton h-32 w-full"></div>
-                    <div className="skeleton h-4 w-28"></div>
-                    <div className="skeleton h-4 w-full"></div>
-                    <div className="skeleton h-4 w-full"></div>
-                </div>
-            </div>
-        );
+        return <Loading />;
     }
 
     return (
@@ -87,6 +108,23 @@ const AllPlants = () => {
                     Dive into our vibrant selection of plants and transform your
                     space into a lush paradise.
                 </SubHeading>
+            </div>
+            <div>
+                <div className="mb-8 flex justify-end">
+                    <select
+                        value={selectedCategory}
+                        onChange={handleCategoryChange}
+                        className="select select-bordered w-full max-w-xs"
+                    >
+                        <option selected>All Categories</option>
+                        <option>Indoor Plants</option>
+                        <option>Outdoor Plants</option>
+                        <option>Succulents</option>
+                        <option>Cacti</option>
+                        <option>Flowering Plants</option>
+                        <option>Ornamental Grasses</option>
+                    </select>
+                </div>
             </div>
             <div className="grid grid-cols-4 gap-5">
                 {currentPlants?.map((plant: Plant) => (
