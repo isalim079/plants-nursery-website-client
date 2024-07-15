@@ -1,34 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type TPlants = {
-    image: string;
+type TCartItems = {
+    plantId: string;
     title: string;
+    image: string;
     price: string;
     rating: number;
+    quantity: number;
     categoryName: string;
+    description: string;
+}
+type TCartItemState = {
+    cartItems: TCartItems[];
 };
 
-type TInitialState = {
-    plants: TPlants[];
-};
-
-const initialState: TInitialState = {
-    plants: [],
+const initialState: TCartItemState = {
+    cartItems: [],
 };
 
 const plantsSlice = createSlice({
     name: "plants",
     initialState,
     reducers: {
-        addPlantsToCart: (
-            state: TInitialState,
-            action: PayloadAction<TPlants>
-        ) => {
-            state.plants.push({ ...action.payload });
-        },
+       addToCart: ((state, action: PayloadAction<TCartItems>) => {
+        console.log("plantSlice line 19 =>", action.payload);
+        state.cartItems.push({...action.payload})
+       })
     },
 });
 
-export const {addPlantsToCart} = plantsSlice.actions
+export const {addToCart} = plantsSlice.actions
 
 export default plantsSlice.reducer;

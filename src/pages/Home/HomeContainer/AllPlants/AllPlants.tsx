@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { useGetPlantsQuery } from "../../../../redux/api/api";
+import {
+    useAddPlantToCartMutation,
+    useGetPlantsQuery,
+} from "../../../../redux/api/api";
 import { Rating, RoundedStar } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import ButtonPrimary from "../../../../components/Button/ButtonPrimary";
@@ -18,7 +22,9 @@ type Plant = {
     image: string;
     price: string;
     rating: number;
+    quantity: number;
     categoryName: string;
+    description: string;
 };
 
 const myStyles = {
@@ -93,6 +99,26 @@ const AllPlants = () => {
 
     // pagination ended
 
+    const [addToCart, { data , isError, isSuccess }] =
+        useAddPlantToCartMutation();
+
+        // console.log(data);
+
+    const handleAddToCart = async (plant: Plant) => {
+        const plantDetails = {
+            plantId: plant._id,
+            title: plant.title,
+            image: plant.image,
+            price: plant.price,
+            rating: plant.rating,
+            quantity: plant.quantity,
+            categoryName: plant.categoryName,
+            description: plant.description,
+        };
+
+        addToCart(plantDetails);
+    };
+
     if (isLoading) {
         return <Loading />;
     }
@@ -116,7 +142,9 @@ const AllPlants = () => {
                         onChange={handleCategoryChange}
                         className="select select-bordered w-full max-w-xs"
                     >
-                        <option selected>All Categories</option>
+                        <option defaultValue={"All Categories"}>
+                            All Categories
+                        </option>
                         <option>Indoor Plants</option>
                         <option>Outdoor Plants</option>
                         <option>Succulents</option>
@@ -129,40 +157,41 @@ const AllPlants = () => {
             <div className="grid grid-cols-4 gap-5">
                 {currentPlants?.map((plant: Plant) => (
                     <div key={plant?._id}>
-                        <Link to={`/plantDetails/${plant?._id}`}>
-                            <div className="card bg-backgroundLightGreen shadow-md">
-                                <div className="card-body">
-                                    <h2 className="card-title text-textGreen">
-                                        {plant?.title}
-                                    </h2>
-                                    <p>
-                                        <span className="font-semibold text-textGreen">
-                                            Price:{" "}
-                                        </span>{" "}
-                                        {plant?.price}
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                        <span className="font-semibold text-textGreen">
-                                            Rating:{" "}
-                                        </span>{" "}
-                                        <Rating
-                                            style={{ maxWidth: 150 }}
-                                            value={Number(plant?.rating)}
-                                            readOnly={true}
-                                            itemStyles={myStyles}
-                                        />
-                                    </div>
-                                    <div className="mt-4">
-                                        <ButtonPrimary>
-                                            Add to Cart
-                                        </ButtonPrimary>
-                                    </div>
+                        <div className="card bg-backgroundLightGreen shadow-md">
+                            <div className="card-body">
+                                <h2 className="card-title text-textGreen">
+                                    {plant?.title}
+                                </h2>
+                                <p>
+                                    <span className="font-semibold text-textGreen">
+                                        Price:{" "}
+                                    </span>{" "}
+                                    {plant?.price}
+                                </p>
+                                <div className="flex items-center justify-between">
+                                    <span className="font-semibold text-textGreen">
+                                        Rating:{" "}
+                                    </span>{" "}
+                                    <Rating
+                                        style={{ maxWidth: 150 }}
+                                        value={Number(plant?.rating)}
+                                        readOnly={true}
+                                        itemStyles={myStyles}
+                                    />
                                 </div>
-                                <figure>
-                                    <img src={plant?.image} alt="" />
-                                </figure>
+                                <div
+                                    className="mt-4"
+                                    onClick={() => handleAddToCart(plant)}
+                                >
+                                    <ButtonPrimary>Add to Cart</ButtonPrimary>
+                                </div>
                             </div>
-                        </Link>
+                            <figure>
+                                <Link to={`/plantDetails/${plant?._id}`}>
+                                    <img src={plant?.image} alt="" />
+                                </Link>
+                            </figure>
+                        </div>
                     </div>
                 ))}
             </div>

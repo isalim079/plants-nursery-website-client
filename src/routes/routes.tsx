@@ -3,6 +3,7 @@ import Router from "./Router";
 import Home from "../pages/Home/Home";
 import PlantDetails from "../pages/PlantDetails/PlantDetails";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
+import Carts from "../pages/Carts/Carts";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/plants',
                 element: <ProductsPage />,
+            },
+            {
+                path: '/carts',
+                element: <Carts />,
             },
         ]
     }

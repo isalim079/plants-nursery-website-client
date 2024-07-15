@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { ImCart } from "react-icons/im";
 import { Link } from "react-router-dom";
+import { useGetCartItemsQuery } from "../../redux/api/api";
 
 const Navbar = () => {
     const [isFlippedIcon, setIsFlippedIcon] = useState(false);
@@ -10,6 +14,9 @@ const Navbar = () => {
         setIsFlippedIcon(!isFlippedIcon);
         setIsDropdownOpen(!isDropdownOpen);
     };
+    
+    const { data: cartItems, isLoading } = useGetCartItemsQuery({});
+    // console.log(cartItems.data.length);
 
     return (
         <div>
@@ -64,10 +71,24 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="navbar-end pr-4">
-                    <a className="border px-3 py-2 border-textGreen/50 text-textGreen rounded-md shadow-md cursor-pointer  hover:bg-textGreen hover:text-[#fff] transition duration-200 ease-in-out">
-                        Dashboard
-                    </a>
+                <div className="navbar-end pr-4 gap-7">
+                    <div className="relative">
+                        <Link to={"/carts"}>
+                            <button className="border px-3 py-2 border-textGreen/50 text-textGreen rounded-md shadow-md cursor-pointer  hover:bg-textGreen hover:text-[#fff] transition duration-200 ease-in-out">
+                                <span className="flex items-center gap-2">
+                                    <ImCart className="text-xl" />
+                                </span>
+                            </button>
+                        </Link>
+                        <span className="absolute -top-2 -right-2 bg-textGreen rounded-full text-backgroundLightGreen w-5 h-5 flex items-center justify-center p-1 text-xs ">
+                           {cartItems?.data?.length}
+                        </span>
+                    </div>
+                    <div>
+                        <a className="border px-3 py-2 border-textGreen/50 text-textGreen rounded-md shadow-md cursor-pointer  hover:bg-textGreen hover:text-[#fff] transition duration-200 ease-in-out">
+                            Dashboard
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
