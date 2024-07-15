@@ -7,6 +7,9 @@ import ButtonPrimary from "../../../../components/Button/ButtonPrimary";
 import Heading from "../../../../components/Heading/Heading";
 import SubHeading from "../../../../components/SubHeading/SubHeading";
 import { Link } from "react-router-dom";
+import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { useState } from "react";
+import SearchBar from "../SearchBar/SearchBar";
 
 type Plant = {
     _id: string;
@@ -27,6 +30,39 @@ const myStyles = {
 const AllPlants = () => {
     const { data: plants, isLoading } = useGetPlantsQuery({});
 
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const plantsPerPage = 4;
+
+    const indexOfLastPlant = currentPage * plantsPerPage;
+    const indexOfFirstPlant = indexOfLastPlant - plantsPerPage;
+    const currentPlants = plants?.data.slice(
+        indexOfFirstPlant,
+        indexOfLastPlant
+    );
+
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(plants?.data.length / plantsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const paginate = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (currentPage < pageNumbers.length) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="max-w-screen-2xl mx-auto mb-24">
@@ -42,6 +78,9 @@ const AllPlants = () => {
 
     return (
         <div className="max-w-screen-2xl mx-auto mb-24">
+            <div>
+                <SearchBar />
+            </div>
             <div className="mb-12">
                 <Heading>Uncover the Wonders of Our Plant Collection</Heading>
                 <SubHeading>
@@ -50,7 +89,7 @@ const AllPlants = () => {
                 </SubHeading>
             </div>
             <div className="grid grid-cols-4 gap-5">
-                {plants?.data?.map((plant: Plant) => (
+                {currentPlants?.map((plant: Plant) => (
                     <div key={plant?._id}>
                         <Link to={`/plantDetails/${plant?._id}`}>
                             <div className="card bg-backgroundLightGreen shadow-md">
@@ -89,6 +128,83 @@ const AllPlants = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Pagination */}
+            {plants?.data.length > plantsPerPage && (
+                <div>
+                    <ul className="flex items-center gap-10 text-xl font-semibold justify-center mt-10">
+                        <button className="btn-5">
+                            <MdSkipPrevious
+                                onClick={handlePreviousClick}
+                                className="text-3xl border border-royalBlue rounded-full p-[2px] hover:bg-royalBlue hover:text-white"
+                            />
+                        </button>
+                        {currentPage !== 1 && pageNumbers.length > 7 && (
+                            <>
+                                <li key={1}>
+                                    <button
+                                        onClick={() => paginate(1)}
+                                        className={
+                                            currentPage === 1
+                                                ? "bg-royalBlue text-white px-2 py-1 rounded-md -translate-y-1 shadow-lg transition-all duration-400 ease-in-out"
+                                                : ""
+                                        }
+                                    >
+                                        1
+                                    </button>
+                                </li>
+                                <li>...</li>
+                            </>
+                        )}
+                        {pageNumbers
+                            .slice(
+                                currentPage > 1 && pageNumbers.length > 7
+                                    ? currentPage - 2
+                                    : 0,
+                                currentPage + 5
+                            )
+                            .map((number) => (
+                                <li key={number}>
+                                    <button
+                                        onClick={() => paginate(number)}
+                                        className={
+                                            currentPage === number
+                                                ? "bg-royalBlue text-white px-2 py-1 rounded-md -translate-y-1 shadow-lg transition-all duration-400 ease-in-out"
+                                                : ""
+                                        }
+                                    >
+                                        {number}
+                                    </button>
+                                </li>
+                            ))}
+                        {currentPage <= pageNumbers.length - 6 && (
+                            <>
+                                <li>...</li>
+                                <li key={pageNumbers.length}>
+                                    <button
+                                        onClick={() =>
+                                            paginate(pageNumbers.length)
+                                        }
+                                        className={
+                                            currentPage === pageNumbers.length
+                                                ? "bg-royalBlue text-white px-2 py-1 rounded-md -translate-y-1 shadow-lg transition-all duration-400 ease-in-out"
+                                                : ""
+                                        }
+                                    >
+                                        {pageNumbers.length}
+                                    </button>
+                                </li>
+                            </>
+                        )}
+                        <button>
+                            <MdSkipNext
+                                onClick={handleNextClick}
+                                className="text-3xl border border-royalBlue rounded-full p-[2px] hover:bg-royalBlue hover:text-white"
+                            />
+                        </button>
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };

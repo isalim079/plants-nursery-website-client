@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const [isFlippedIcon, setIsFlippedIcon] = useState(false);
@@ -36,30 +37,30 @@ const Navbar = () => {
                             }`}
                         >
                             <li>
-                                <a>Home</a>
+                                <Link to={"/"}>Home</Link>
                             </li>
 
                             <li>
-                                <a>Products</a>
+                                <Link to={"/plants"}>Products</Link>
                             </li>
                         </ul>
                     </div>
-                    <a>
+                    <Link to={"/"}>
                         <img
                             className="w-4/5 hidden lg:block"
                             src="/src/assets/img/logo.png"
                             alt=""
                         />
-                    </a>
+                    </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 text-textGreen">
                         <li>
-                            <a>Home</a>
+                            <Link to={"/"}>Home</Link>
                         </li>
 
                         <li>
-                            <a>Products</a>
+                            <Link to={"/plants"}>Products</Link>
                         </li>
                     </ul>
                 </div>
