@@ -27,6 +27,15 @@ export const baseApi = createApi({
             }),
             invalidatesTags: ["cart"],
         }),
+        updatePlantsData: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/allPlants/${id}`,
+                method: "PUT",
+                body: data,
+            }),
+
+            invalidatesTags: ["plant"],
+        }),
         getCartItems: builder.query({
             query: () => ({
                 url: "/cartItems",
@@ -34,7 +43,6 @@ export const baseApi = createApi({
             }),
             providesTags: ["cart"],
         }),
-      
     }),
 });
 
@@ -43,4 +51,5 @@ export const {
     useGetPlantByIdQuery,
     useAddPlantToCartMutation,
     useGetCartItemsQuery,
+    useUpdatePlantsDataMutation,
 } = baseApi;

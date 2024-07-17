@@ -18,7 +18,7 @@ const Carts = () => {
                 <table className="table">
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className="text-center">
                             <th>#</th>
                             <th>Plant Name</th>
                             <th>Price</th>
@@ -28,7 +28,7 @@ const Carts = () => {
                     </thead>
                     <tbody>
                         {cartItems?.data?.map((item: any, index: number) => (
-                            <tr key={index}>
+                            <tr key={index} className="text-center">
                                 <th>{index + 1}</th>
                                 <td>{item?.title}</td>
                                 <td>{item?.price}</td>

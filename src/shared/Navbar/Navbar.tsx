@@ -69,6 +69,9 @@ const Navbar = () => {
                         <li>
                             <Link to={"/plants"}>Products</Link>
                         </li>
+                        <li>
+                            <Link to={"/plantsManagement"}>Plants Management</Link>
+                        </li>
                     </ul>
                 </div>
                 <div className="navbar-end pr-4 gap-7">
@@ -84,11 +87,11 @@ const Navbar = () => {
                            {cartItems?.data?.length}
                         </span>
                     </div>
-                    <div>
+                    {/* <div>
                         <a className="border px-3 py-2 border-textGreen/50 text-textGreen rounded-md shadow-md cursor-pointer  hover:bg-textGreen hover:text-[#fff] transition duration-200 ease-in-out">
-                            Dashboard
+                            Plants Management
                         </a>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
