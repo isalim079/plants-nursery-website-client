@@ -23,7 +23,6 @@ const plantsSlice = createSlice({
     initialState,
     reducers: {
        addToCart: ((state, action: PayloadAction<TCartItems>) => {
-        console.log("plantSlice line 19 =>", action.payload);
         state.cartItems.push({...action.payload})
        })
     },

@@ -15,6 +15,7 @@ import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import Loading from "../../../../components/Loading/Loading";
+import toast from "react-hot-toast";
 
 type Plant = {
     _id: string;
@@ -99,10 +100,10 @@ const AllPlants = () => {
 
     // pagination ended
 
-    const [addToCart, { data , isError, isSuccess }] =
+    const [addToCart, { data, isError, isSuccess }] =
         useAddPlantToCartMutation();
 
-        // console.log(data);
+    // console.log(data);
 
     const handleAddToCart = async (plant: Plant) => {
         const plantDetails = {
@@ -111,12 +112,13 @@ const AllPlants = () => {
             image: plant.image,
             price: plant.price,
             rating: plant.rating,
-            quantity: plant.quantity,
+            quantity: 1,
             categoryName: plant.categoryName,
             description: plant.description,
         };
 
         addToCart(plantDetails);
+        toast.success(`${plant?.title}, added to the cart`);
     };
 
     if (isLoading) {
