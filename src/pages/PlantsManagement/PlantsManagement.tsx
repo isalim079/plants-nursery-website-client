@@ -3,10 +3,41 @@ import { Link } from "react-router-dom";
 import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import Heading from "../../components/Heading/Heading";
 import Loading from "../../components/Loading/Loading";
-import { useGetPlantsQuery } from "../../redux/api/api";
+import { useDeletePlantsMutation, useGetPlantsQuery } from "../../redux/api/api";
+import Swal from "sweetalert2";
+
 
 const PlantsManagement = () => {
     const { data: plants, isLoading } = useGetPlantsQuery({});
+
+    const [deletePlant, { data, isError, isSuccess }] =
+    useDeletePlantsMutation();
+
+    const handleDelete = (item) => {
+
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                deletePlant(item?._id)
+
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+            }
+          });
+
+    }
 
     if (isLoading) {
         return <Loading />;
@@ -64,7 +95,7 @@ const PlantsManagement = () => {
                                                     </ButtonPrimary>
                                                 </Link>
                                             </div>
-                                            <div>
+                                            <div onClick={() => handleDelete(item)}>
                                                 <ButtonPrimary>
                                                     Delete
                                                 </ButtonPrimary>

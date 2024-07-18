@@ -19,6 +19,13 @@ export const baseApi = createApi({
             }),
             providesTags: ["plant"],
         }),
+        deletePlants: builder.mutation({
+            query: (id) => ({
+                url: `/allPlants/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["plant"],
+        }),
         addPlantToCart: builder.mutation({
             query: (data) => ({
                 url: "/cartItems",
@@ -61,4 +68,5 @@ export const {
     useGetCartItemsQuery,
     useUpdatePlantsDataMutation,
     useAddPlantsMutation,
+    useDeletePlantsMutation,
 } = baseApi;
