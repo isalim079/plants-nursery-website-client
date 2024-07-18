@@ -30,7 +30,11 @@ const PlantsManagement = () => {
                                 <th>Category Name</th>
                                 <th>Quantity</th>
                                 <th>
-                                    <ButtonPrimary>Add Plants</ButtonPrimary>
+                                    <Link to={"/addPlants"}>
+                                        <ButtonPrimary>
+                                            Add Plants
+                                        </ButtonPrimary>
+                                    </Link>
                                 </th>
                             </tr>
                         </thead>
@@ -52,7 +56,9 @@ const PlantsManagement = () => {
                                     <td>
                                         <div className="flex gap-4">
                                             <div>
-                                                <Link to={`/plantsUpdateForm/${item?._id}`}>
+                                                <Link
+                                                    to={`/plantsUpdateForm/${item?._id}`}
+                                                >
                                                     <ButtonPrimary>
                                                         Update
                                                     </ButtonPrimary>

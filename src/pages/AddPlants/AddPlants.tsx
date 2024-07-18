@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useParams } from "react-router-dom";
-import {
-    useGetPlantByIdQuery,
-    useUpdatePlantsDataMutation,
-} from "../../redux/api/api";
-import { useForm } from "react-hook-form";
-import Heading from "../../components/Heading/Heading";
 import { RiArrowRightUpFill } from "react-icons/ri";
+import Heading from "../../components/Heading/Heading";
+import { useForm } from "react-hook-form";
 import axiosPublic from "../../components/axiosPublic";
+import { useAddPlantsMutation } from "../../redux/api/api";
 import toast from "react-hot-toast";
-
 
 type Plant = {
     title: string;
@@ -24,7 +18,7 @@ type Plant = {
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const PlantsUpdateForm = () => {
+const AddPlants = () => {
     const {
         register,
         handleSubmit,
@@ -32,57 +26,41 @@ const PlantsUpdateForm = () => {
         formState: { errors },
     } = useForm<Plant>();
 
-    const { id } = useParams<{ id: string }>();
-    const { data: plant, isLoading } = useGetPlantByIdQuery(id);
-
-    const [updatePlantsData, { data, isError, isSuccess }] =
-        useUpdatePlantsDataMutation();
+    const [addPlantsData, { data, isError, isSuccess }] =
+        useAddPlantsMutation();
 
     const onSubmit = async (data: Plant) => {
-        let imageUrl = plant?.data?.image;
+        const imageFile = { image: data.image[0] };
 
-        try {
-            const imageFile = { image: data.image[0] };
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                "content-type": "multipart/form-data",
+            },
+        });
 
-            const res = await axiosPublic.post(image_hosting_api, imageFile, {
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            });
-            if (res.data.success) {
-                imageUrl = res.data.data.display_url;
-            }
-        } catch (error) {
-            console.error("Image upload failed", error);
+        if (res.data.success) {
+            const plantsData = {
+                title: data.title,
+                image: res.data.data.display_url,
+                price: data.price,
+                rating: data.rating,
+                quantity: Number(data.quantity),
+                categoryName: data.categoryName,
+                description: data.description,
+            };
+
+            console.log(plantsData);
+
+            addPlantsData(plantsData);
+            toast.success("Plants updated successfully");
         }
-
-        const plantsData = {
-            title: data.title ? data.title : plant?.data?.title,
-            image: imageUrl,
-            price: data.price ? data.price : plant?.data?.price,
-            rating: data.rating ? data.rating : plant?.data?.rating,
-            quantity: Number(
-                data.quantity ? data.quantity : plant?.data?.quantity
-            ),
-            categoryName: data.categoryName
-                ? data.categoryName
-                : plant?.data?.categoryName,
-            description: data.description
-                ? data.description
-                : plant?.data?.description,
-        };
-
-        // console.log(plantsData);
-
-        updatePlantsData({ id, data: plantsData });
-        toast.success("Plants updated successfully");
     };
 
     return (
         <div>
             <div className="max-w-screen-2xl mx-auto my-24 p-6 bg-white rounded-md shadow-md ">
                 <div className="mb-8">
-                    <Heading>Update Plant</Heading>
+                    <Heading>Add Plant</Heading>
                 </div>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
@@ -94,10 +72,9 @@ const PlantsUpdateForm = () => {
                         </label>
                         <input
                             type="text"
-                            defaultValue={plant?.data?.title}
                             placeholder="Enter Plant Name"
                             className="w-full p-2 border rounded-md"
-                            {...register("title")}
+                            {...register("title", { required: true })}
                         />
                     </div>
 
@@ -107,10 +84,10 @@ const PlantsUpdateForm = () => {
                                 Plant Category
                             </label>
                             <select
-                                defaultChecked={plant?.data?.categoryName}
-                                defaultValue={plant?.data?.categoryName}
                                 className="w-full p-2 border rounded-md"
-                                {...register("categoryName")}
+                                {...register("categoryName", {
+                                    required: true,
+                                })}
                             >
                                 <option value="">Select</option>
                                 <option value="Indoor Plants">
@@ -135,10 +112,9 @@ const PlantsUpdateForm = () => {
                                 Plant Image
                             </label>
                             <input
-                                defaultValue={plant?.data?.image}
                                 type="file"
                                 className="w-full p-2 border rounded-md"
-                                {...register("image")}
+                                {...register("image", { required: true })}
                             />
                         </div>
                     </div>
@@ -150,11 +126,10 @@ const PlantsUpdateForm = () => {
                             </label>
                             <input
                                 placeholder="Rating"
-                                defaultValue={plant?.data?.rating}
                                 step="any"
                                 type="number"
                                 className="w-full p-2 border rounded-md"
-                                {...register("rating")}
+                                {...register("rating", { required: true })}
                             />
                         </div>
                         <div className="mb-4 flex-1">
@@ -162,11 +137,10 @@ const PlantsUpdateForm = () => {
                                 Price
                             </label>
                             <input
-                                placeholder="Price"
-                                defaultValue={plant?.data?.price}
+                                placeholder="$100"
                                 type="text"
                                 className="w-full p-2 border rounded-md"
-                                {...register("price")}
+                                {...register("price", { required: true })}
                             />
                         </div>
                     </div>
@@ -178,9 +152,8 @@ const PlantsUpdateForm = () => {
                         <input
                             type="number"
                             placeholder="Quantity"
-                            defaultValue={plant?.data?.quantity}
                             className="w-full p-2 border rounded-md"
-                            {...register("quantity")}
+                            {...register("quantity", { required: true })}
                         />
                     </div>
 
@@ -191,14 +164,16 @@ const PlantsUpdateForm = () => {
                         <input
                             type="text"
                             placeholder="Description"
-                            defaultValue={plant?.data?.description}
                             className="w-full p-2 border rounded-md"
-                            {...register("description")}
+                            {...register("description", { required: true })}
                         />
                     </div>
 
                     <div className="flex justify-between">
                         <div>
+                            <p className="mb-2 text-[#da5656]">
+                                * All fields are required
+                            </p>
                             <button
                                 type="submit"
                                 className="border px-3 py-2 border-textGreen/50 text-textGreen rounded-md shadow-md cursor-pointer  hover:bg-textGreen hover:text-[#fff] transition duration-200 ease-in-out"
@@ -216,4 +191,4 @@ const PlantsUpdateForm = () => {
     );
 };
 
-export default PlantsUpdateForm;
+export default AddPlants;

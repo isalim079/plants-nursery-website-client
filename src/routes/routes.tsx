@@ -6,6 +6,7 @@ import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import Carts from "../pages/Carts/Carts";
 import PlantsManagement from "../pages/PlantsManagement/PlantsManagement";
 import PlantsUpdateForm from "../pages/PlantsUpdateForm/PlantsUpdateForm";
+import AddPlants from "../pages/AddPlants/AddPlants";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: '/plantsUpdateForm/:id',
                 element: <PlantsUpdateForm />,
+            },
+            {
+                path: '/addPlants',
+                element: <AddPlants />,
             },
         ]
     }
