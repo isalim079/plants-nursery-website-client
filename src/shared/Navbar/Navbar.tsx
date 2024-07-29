@@ -14,7 +14,7 @@ const Navbar = () => {
         setIsFlippedIcon(!isFlippedIcon);
         setIsDropdownOpen(!isDropdownOpen);
     };
-    
+
     const { data: cartItems, isLoading } = useGetCartItemsQuery({});
     // console.log(cartItems.data.length);
 
@@ -70,7 +70,9 @@ const Navbar = () => {
                             <Link to={"/plants"}>Products</Link>
                         </li>
                         <li>
-                            <Link to={"/plantsManagement"}>Plants Management</Link>
+                            <Link to={"/plantsManagement"}>
+                                Plants Management
+                            </Link>
                         </li>
                     </ul>
                 </div>
@@ -84,7 +86,7 @@ const Navbar = () => {
                             </button>
                         </Link>
                         <span className="absolute -top-2 -right-2 bg-textGreen rounded-full text-backgroundLightGreen w-5 h-5 flex items-center justify-center p-1 text-xs ">
-                           {cartItems?.data?.length}
+                            {cartItems?.data?.length}
                         </span>
                     </div>
                     {/* <div>

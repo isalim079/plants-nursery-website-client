@@ -26,6 +26,7 @@ type Plant = {
     quantity: number;
     categoryName: string;
     description: string;
+    isCheckout: boolean;
 };
 
 const myStyles = {
@@ -115,10 +116,18 @@ const AllPlants = () => {
             quantity: 1,
             categoryName: plant.categoryName,
             description: plant.description,
+            isCheckout: false,
         };
 
-        addToCart(plantDetails);
+        // console.log(plantDetails);
+
+        if(plant?.quantity <= 1) {
+            toast.error('Plant is not in stock!')
+        }
+        else {
+            addToCart(plantDetails);
         toast.success(`${plant?.title}, added to the cart`);
+        }
     };
 
     if (isLoading) {

@@ -27,11 +27,14 @@ export const baseApi = createApi({
             invalidatesTags: ["plant"],
         }),
         addPlantToCart: builder.mutation({
-            query: (data) => ({
-                url: "/cartItems",
+            query: (data) => {
+                // console.log(data);
+                return {
+                    url: "/cartItems",
                 method: "POST",
                 body: data,
-            }),
+                }
+            },
             invalidatesTags: ["cart"],
         }),
         addPlants: builder.mutation({
@@ -55,9 +58,17 @@ export const baseApi = createApi({
             query: () => ({
                 url: "/cartItems",
                 method: "GET",
+               
             }),
             providesTags: ["cart"],
         }),
+        updateIsCheckout: builder.mutation({
+            query: () => ({
+                url: '/checkout',
+                method: 'PUT',
+            }),
+            invalidatesTags: ['cart']
+        })
     }),
 });
 
@@ -69,4 +80,5 @@ export const {
     useUpdatePlantsDataMutation,
     useAddPlantsMutation,
     useDeletePlantsMutation,
+    useUpdateIsCheckoutMutation,
 } = baseApi;

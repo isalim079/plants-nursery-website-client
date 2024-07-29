@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useParams } from "react-router-dom";
 import {
     useGetPlantByIdQuery,
     useUpdatePlantsDataMutation,
@@ -9,6 +8,7 @@ import Heading from "../../components/Heading/Heading";
 import { RiArrowRightUpFill } from "react-icons/ri";
 import axiosPublic from "../../components/axiosPublic";
 import toast from "react-hot-toast";
+
 
 
 type Plant = {
@@ -24,16 +24,15 @@ type Plant = {
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const PlantsUpdateForm = () => {
+const PlantsUpdateForm = ({plantInfo}) => {
+    console.log(plantInfo);
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm<Plant>();
-
-    const { id } = useParams<{ id: string }>();
-    const { data: plant, isLoading } = useGetPlantByIdQuery(id);
+    const { data: plant, isLoading } = useGetPlantByIdQuery(plantInfo);
 
     const [updatePlantsData, { data, isError, isSuccess }] =
         useUpdatePlantsDataMutation();
@@ -74,7 +73,7 @@ const PlantsUpdateForm = () => {
 
         // console.log(plantsData);
 
-        updatePlantsData({ id, data: plantsData });
+        updatePlantsData({ id: plantInfo, data: plantsData });
         toast.success("Plants updated successfully");
     };
 
@@ -204,7 +203,7 @@ const PlantsUpdateForm = () => {
                                 className="border px-3 py-2 border-textGreen/50 text-textGreen rounded-md shadow-md cursor-pointer  hover:bg-textGreen hover:text-[#fff] transition duration-200 ease-in-out"
                             >
                                 <span className="flex items-center gap-2">
-                                    Add Plants
+                                    Update Plants
                                     <RiArrowRightUpFill className="text-xl" />
                                 </span>
                             </button>

@@ -5,13 +5,16 @@ import Heading from "../../components/Heading/Heading";
 import Loading from "../../components/Loading/Loading";
 import { useDeletePlantsMutation, useGetPlantsQuery } from "../../redux/api/api";
 import Swal from "sweetalert2";
-
+import PlantsUpdateForm from "../PlantsUpdateForm/PlantsUpdateForm";
+import { useState } from "react";
 
 const PlantsManagement = () => {
     const { data: plants, isLoading } = useGetPlantsQuery({});
 
     const [deletePlant, { data, isError, isSuccess }] =
     useDeletePlantsMutation();
+
+    const [plantInfo, setPlantInfo] = useState('')
 
     const handleDelete = (item) => {
 
@@ -38,6 +41,7 @@ const PlantsManagement = () => {
           });
 
     }
+
 
     if (isLoading) {
         return <Loading />;
@@ -86,7 +90,9 @@ const PlantsManagement = () => {
                                     <td>{item?.quantity}</td>
                                     <td>
                                         <div className="flex gap-4">
-                                            <div>
+
+
+                                            {/* <div>
                                                 <Link
                                                     to={`/plantsUpdateForm/${item?._id}`}
                                                 >
@@ -94,7 +100,22 @@ const PlantsManagement = () => {
                                                         Update
                                                     </ButtonPrimary>
                                                 </Link>
-                                            </div>
+                                            </div> */}
+
+
+<div className="" onClick={()=>{document.getElementById('my_modal_5').showModal(); setPlantInfo(item?._id)}}><ButtonPrimary>Update</ButtonPrimary></div>
+<dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+  <div className="modal-box">
+   <PlantsUpdateForm plantInfo={plantInfo} />
+    <div className="modal-action">
+      <form method="dialog">
+        <button className="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+
                                             <div onClick={() => handleDelete(item)}>
                                                 <ButtonPrimary>
                                                     Delete

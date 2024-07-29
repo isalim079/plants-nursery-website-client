@@ -2,11 +2,35 @@
 import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import Loading from "../../components/Loading/Loading";
 import { useGetCartItemsQuery } from "../../redux/api/api";
+import Swal from "sweetalert2";
 
 const Carts = () => {
     const { data: cartItems, isLoading } = useGetCartItemsQuery({});
 
-    // console.log(cartItems);
+    const totalPrice = cartItems?.data?.reduce((total, plant) => {
+        const price = parseFloat(plant.price.replace("$", ""));
+        return total + price * plant.quantity;
+    }, 0);
+
+    const handleCheckout = () => {
+        Swal.fire({
+            title: `Total Price: $${totalPrice}`,
+            text: "Payment method: COD",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirm Order!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Confirmed!",
+                    text: "Your plant order confirmed.",
+                    icon: "success",
+                });
+            }
+        });
+    };
 
     if (isLoading) {
         return <Loading />;
@@ -23,7 +47,11 @@ const Carts = () => {
                             <th>Plant Name</th>
                             <th>Price</th>
                             <th>Category Name</th>
-                            <th><ButtonPrimary>Checkout</ButtonPrimary></th>
+                            <th>
+                                <div onClick={() => handleCheckout()}>
+                                    <ButtonPrimary>Checkout</ButtonPrimary>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
