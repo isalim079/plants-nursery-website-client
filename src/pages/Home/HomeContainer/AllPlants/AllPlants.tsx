@@ -135,7 +135,7 @@ const AllPlants = () => {
     }
 
     return (
-        <div className="max-w-screen-2xl mx-auto mb-24">
+        <div className="max-w-screen-2xl mx-auto mb-24 p-4">
             <div>
                 <SearchBar />
             </div>
@@ -165,7 +165,7 @@ const AllPlants = () => {
                     </select>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {currentPlants?.map((plant: Plant) => (
                     <div key={plant?._id}>
                         <div className="card bg-backgroundLightGreen shadow-md">

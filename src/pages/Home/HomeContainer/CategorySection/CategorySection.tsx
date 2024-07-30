@@ -32,7 +32,7 @@ const CategorySection = () => {
                     Style
                 </SubHeading>
             </div>
-            <div className="grid grid-cols-4 gap-7">
+            <div className="grid p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
                 {plantCategory.map((category, index) => (
                     <div key={index} className="card bg-base-100 shadow-md">
                         <figure className="">
@@ -46,7 +46,7 @@ const CategorySection = () => {
                             <h2 className="card-title text-textGreen">
                                 {category?.categoryName}
                             </h2>
-                            <p>{category?.description}</p>
+                            <p className="text-sm md:text-base">{category?.description}</p>
                             <p className="font-semibold">
                                 {category?.priceRange}
                             </p>

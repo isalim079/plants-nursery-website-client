@@ -32,7 +32,7 @@ const TopBanner = () => {
                 {plantData.map((plant, index) => (
                     <div
                         key={index}
-                        className="flex justify-around items-center w-full bg-backgroundLightGreen py-24 rounded-b-2xl shadow-md text-textGreen"
+                        className="flex flex-col md:flex-row justify-around items-center w-full bg-backgroundLightGreen py-24 rounded-b-2xl shadow-md text-textGreen"
                     >
                         <div>
                             <h1 className="font-playWrite font-bold text-5xl mb-6">
@@ -43,7 +43,7 @@ const TopBanner = () => {
                             </p>
                             <ButtonPrimary>See all plants</ButtonPrimary>
                         </div>
-                        <div className="w-[20%]">
+                        <div className="md:w-[20%] p-4 lg:p-0">
                             <img
                                 className=" rounded-3xl shadow-lg"
                                 src={plant?.image}

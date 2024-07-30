@@ -47,7 +47,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="max-w-screen-lg mx-auto my-24">
+        <div className="max-w-screen-lg mx-auto my-24 p-4">
             <div className="mb-12">
                 <Heading>Search your desire plants!</Heading>
             </div>
