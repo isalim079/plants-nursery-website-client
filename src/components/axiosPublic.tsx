@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000";
+const baseURL = "https://nursery-website-server.vercel.app";
 
 const axiosPublic = axios.create({
     baseURL,

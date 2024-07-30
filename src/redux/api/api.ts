@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
     reducerPath: "baseApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: "https://nursery-website-server.vercel.app",
+    }),
     tagTypes: ["plant", "cart"],
     endpoints: (builder) => ({
         getPlants: builder.query({
@@ -31,9 +33,9 @@ export const baseApi = createApi({
                 // console.log(data);
                 return {
                     url: "/cartItems",
-                method: "POST",
-                body: data,
-                }
+                    method: "POST",
+                    body: data,
+                };
             },
             invalidatesTags: ["cart"],
         }),
@@ -58,17 +60,16 @@ export const baseApi = createApi({
             query: () => ({
                 url: "/cartItems",
                 method: "GET",
-               
             }),
             providesTags: ["cart"],
         }),
         updateIsCheckout: builder.mutation({
             query: () => ({
-                url: '/checkout',
-                method: 'PUT',
+                url: "/checkout",
+                method: "PUT",
             }),
-            invalidatesTags: ['cart']
-        })
+            invalidatesTags: ["cart"],
+        }),
     }),
 });
 
