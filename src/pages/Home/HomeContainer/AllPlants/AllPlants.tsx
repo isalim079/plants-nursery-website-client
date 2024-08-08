@@ -101,7 +101,7 @@ const AllPlants = () => {
 
     // pagination ended
 
-    const [addToCart, { data, isError, isSuccess }] =
+    const [addToCart] =
         useAddPlantToCartMutation();
 
     // console.log(data);

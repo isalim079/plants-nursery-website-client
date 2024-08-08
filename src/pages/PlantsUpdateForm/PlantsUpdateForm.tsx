@@ -24,17 +24,15 @@ type Plant = {
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const PlantsUpdateForm = ({plantInfo}) => {
+const PlantsUpdateForm = ({plantInfo}: {plantInfo: string}) => {
     console.log(plantInfo);
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
     } = useForm<Plant>();
-    const { data: plant, isLoading } = useGetPlantByIdQuery(plantInfo);
+    const { data: plant } = useGetPlantByIdQuery(plantInfo);
 
-    const [updatePlantsData, { data, isError, isSuccess }] =
+    const [updatePlantsData] =
         useUpdatePlantsDataMutation();
 
     const onSubmit = async (data: Plant) => {

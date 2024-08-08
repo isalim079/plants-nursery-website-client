@@ -22,11 +22,9 @@ const AddPlants = () => {
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
     } = useForm<Plant>();
 
-    const [addPlantsData, { data, isError, isSuccess }] =
+    const [addPlantsData] =
         useAddPlantsMutation();
 
     const onSubmit = async (data: Plant) => {

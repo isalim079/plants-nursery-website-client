@@ -1,24 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import Heading from "../../components/Heading/Heading";
 import Loading from "../../components/Loading/Loading";
-import { useDeletePlantsMutation, useGetPlantsQuery } from "../../redux/api/api";
+import {
+    useDeletePlantsMutation,
+    useGetPlantsQuery,
+} from "../../redux/api/api";
 import Swal from "sweetalert2";
 import PlantsUpdateForm from "../PlantsUpdateForm/PlantsUpdateForm";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const PlantsManagement = () => {
     const { data: plants, isLoading } = useGetPlantsQuery({});
 
-    const [deletePlant, { data, isError, isSuccess }] =
-    useDeletePlantsMutation();
+    const [deletePlant] = useDeletePlantsMutation();
 
-    const [plantInfo, setPlantInfo] = useState('')
+    const [plantInfo, setPlantInfo] = useState("");
 
-    const handleDelete = (item) => {
+    const dialogRef = useRef<HTMLDialogElement | null>(null);
 
-
+    const handleDelete = (item: any) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -26,22 +29,19 @@ const PlantsManagement = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-          }).then((result) => {
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
             if (result.isConfirmed) {
+                deletePlant(item?._id);
 
-                deletePlant(item?._id)
-
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-              });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                });
             }
-          });
-
-    }
-
+        });
+    };
 
     if (isLoading) {
         return <Loading />;
@@ -90,8 +90,6 @@ const PlantsManagement = () => {
                                     <td>{item?.quantity}</td>
                                     <td>
                                         <div className="flex gap-4">
-
-
                                             {/* <div>
                                                 <Link
                                                     to={`/plantsUpdateForm/${item?._id}`}
@@ -102,21 +100,45 @@ const PlantsManagement = () => {
                                                 </Link>
                                             </div> */}
 
+                                            <div
+                                                className=""
+                                                onClick={() => {
+                                                    (
+                                                        document.getElementById(
+                                                            "my_modal_5"
+                                                        ) as HTMLDialogElement
+                                                    )?.showModal();
+                                                    setPlantInfo(item?._id);
+                                                }}
+                                            >
+                                                <ButtonPrimary>
+                                                    Update
+                                                </ButtonPrimary>
+                                            </div>
+                                            <dialog
+                                                ref={dialogRef}
+                                                id="my_modal_5"
+                                                className="modal modal-bottom sm:modal-middle"
+                                            >
+                                                <div className="modal-box">
+                                                    <PlantsUpdateForm
+                                                        plantInfo={plantInfo}
+                                                    />
+                                                    <div className="modal-action">
+                                                        <form method="dialog">
+                                                            <button className="btn">
+                                                                Close
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </dialog>
 
-<div className="" onClick={()=>{document.getElementById('my_modal_5').showModal(); setPlantInfo(item?._id)}}><ButtonPrimary>Update</ButtonPrimary></div>
-<dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-  <div className="modal-box">
-   <PlantsUpdateForm plantInfo={plantInfo} />
-    <div className="modal-action">
-      <form method="dialog">
-        <button className="btn">Close</button>
-      </form>
-    </div>
-  </div>
-</dialog>
-
-
-                                            <div onClick={() => handleDelete(item)}>
+                                            <div
+                                                onClick={() =>
+                                                    handleDelete(item)
+                                                }
+                                            >
                                                 <ButtonPrimary>
                                                     Delete
                                                 </ButtonPrimary>

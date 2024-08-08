@@ -15,7 +15,7 @@ const Navbar = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const { data: cartItems, isLoading } = useGetCartItemsQuery({});
+    const { data: cartItems } = useGetCartItemsQuery({});
     // console.log(cartItems.data.length);
 
     return (

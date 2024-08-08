@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 const Carts = () => {
     const { data: cartItems, isLoading } = useGetCartItemsQuery({});
 
-    const totalPrice = cartItems?.data?.reduce((total, plant) => {
+    const totalPrice = cartItems?.data?.reduce((total: any, plant: any) => {
         const price = parseFloat(plant.price.replace("$", ""));
         return total + price * plant.quantity;
     }, 0);
