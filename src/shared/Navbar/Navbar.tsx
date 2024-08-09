@@ -48,11 +48,11 @@ const Navbar = () => {
                             </li>
 
                             <li>
-                                <Link to={"/plants"}>Products</Link>
+                                <Link to={"/plants"}>All Plants</Link>
                             </li>
                             <li>
                             <Link to={"/plantsManagement"}>
-                                Plants Management
+                                Plants & Category Management
                             </Link>
                         </li>
                         </ul>
@@ -72,11 +72,11 @@ const Navbar = () => {
                         </li>
 
                         <li>
-                            <Link to={"/plants"}>Products</Link>
+                            <Link to={"/plants"}>All Plants</Link>
                         </li>
                         <li>
                             <Link to={"/plantsManagement"}>
-                                Plants Management
+                                Plants & Category Management
                             </Link>
                         </li>
                     </ul>

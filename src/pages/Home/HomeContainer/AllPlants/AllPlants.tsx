@@ -12,10 +12,11 @@ import Heading from "../../../../components/Heading/Heading";
 import SubHeading from "../../../../components/SubHeading/SubHeading";
 import { Link } from "react-router-dom";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import Loading from "../../../../components/Loading/Loading";
 import toast from "react-hot-toast";
+import axiosPublic from "../../../../components/axiosPublic";
 
 type Plant = {
     _id: string;
@@ -36,7 +37,25 @@ const myStyles = {
     itemStrokeWidth: 2,
 };
 
+interface PlantCategory {
+    categoryName: string;
+    priceRange: string;
+    image: string;
+    description: string;
+}
+
 const AllPlants = () => {
+    const [plantCategory, setPlantCategory] = useState<PlantCategory[]>([]);
+
+    useEffect(() => {
+        const getPlantCategory = async () => {
+            axiosPublic.get("/plantCategories").then((res) => {
+                setPlantCategory(res.data.data);
+            });
+        };
+        getPlantCategory();
+    }, []);
+
     const { data: plants, isLoading } = useGetPlantsQuery({});
 
     const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -101,8 +120,7 @@ const AllPlants = () => {
 
     // pagination ended
 
-    const [addToCart] =
-        useAddPlantToCartMutation();
+    const [addToCart] = useAddPlantToCartMutation();
 
     // console.log(data);
 
@@ -121,12 +139,11 @@ const AllPlants = () => {
 
         // console.log(plantDetails);
 
-        if(plant?.quantity <= 1) {
-            toast.error('Plant is not in stock!')
-        }
-        else {
+        if (plant?.quantity <= 1) {
+            toast.error("Plant is not in stock!");
+        } else {
             addToCart(plantDetails);
-        toast.success(`${plant?.title}, added to the cart`);
+            toast.success(`${plant?.title}, added to the cart`);
         }
     };
 
@@ -156,12 +173,12 @@ const AllPlants = () => {
                         <option defaultValue={"All Categories"}>
                             All Categories
                         </option>
-                        <option>Indoor Plants</option>
-                        <option>Outdoor Plants</option>
-                        <option>Succulents</option>
-                        <option>Cacti</option>
-                        <option>Flowering Plants</option>
-                        <option>Ornamental Grasses</option>
+
+                        {plantCategory?.map((category, index) => (
+                            <option key={index}>
+                                {category?.categoryName}
+                            </option>
+                        ))}
                     </select>
                 </div>
             </div>

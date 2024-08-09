@@ -25,7 +25,7 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const PlantsUpdateForm = ({plantInfo}: {plantInfo: string}) => {
-    console.log(plantInfo);
+    // console.log(plantInfo);
     const {
         register,
         handleSubmit,
@@ -97,6 +97,8 @@ const PlantsUpdateForm = ({plantInfo}: {plantInfo: string}) => {
                             {...register("title")}
                         />
                     </div>
+
+                    
 
                     <div className="flex gap-5 flex-col md:flex-row">
                         <div className="mb-4 flex-1">

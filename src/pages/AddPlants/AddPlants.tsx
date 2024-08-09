@@ -47,7 +47,7 @@ const AddPlants = () => {
                 description: data.description,
             };
 
-            console.log(plantsData);
+            // console.log(plantsData);
 
             addPlantsData(plantsData);
             toast.success("Plants updated successfully");

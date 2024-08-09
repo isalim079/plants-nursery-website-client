@@ -11,8 +11,16 @@ import {
 import Swal from "sweetalert2";
 import PlantsUpdateForm from "../PlantsUpdateForm/PlantsUpdateForm";
 import { useRef, useState } from "react";
+import CategoryForm from "../CategoryForm/CategoryForm";
+
+import ManageCategories from "../ManageCategories/ManageCategories";
+
+
 
 const PlantsManagement = () => {
+
+
+
     const { data: plants, isLoading } = useGetPlantsQuery({});
 
     const [deletePlant] = useDeletePlantsMutation();
@@ -64,13 +72,61 @@ const PlantsManagement = () => {
                                 <th>Price</th>
                                 <th>Category Name</th>
                                 <th>Quantity</th>
-                                <th>
+                                <th className="space-x-2 flex">
                                     <Link to={"/addPlants"}>
                                         <ButtonPrimary>
                                             Add Plants
                                         </ButtonPrimary>
                                     </Link>
+                                    <div>
+                                        <div
+                                            className=""
+                                            onClick={() => {
+                                                (
+                                                    document.getElementById(
+                                                        "my_modal_6"
+                                                    ) as HTMLDialogElement
+                                                )?.showModal();
+                                            }}
+                                        >
+                                            <ButtonPrimary>
+                                                Add Categories
+                                            </ButtonPrimary>
+                                        </div>
+                                        <dialog
+                                            ref={dialogRef}
+                                            id="my_modal_6"
+                                            className="modal modal-bottom sm:modal-middle"
+                                        >
+                                            <div className="modal-box">
+                                                <CategoryForm />
+                                                <div className="modal-action">
+                                                    <form method="dialog">
+                                                        <button className="btn">
+                                                            Close
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </dialog>
+                                    </div>
+
+
+                                    <div>
+                                       
+                                            <Link to={'/manageCategories'}>
+                                            <ButtonPrimary>
+                                                Manage Categories
+                                            </ButtonPrimary>
+                                            </Link>
+                                       
+                                       
+                                    </div>
+
+                                     
+
                                 </th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -145,8 +201,10 @@ const PlantsManagement = () => {
                                             </div>
                                         </div>
                                     </td>
+                                    
                                 </tr>
                             ))}
+                           
                         </tbody>
                     </table>
                 </div>

@@ -6,6 +6,7 @@ import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import Carts from "../pages/Carts/Carts";
 import PlantsManagement from "../pages/PlantsManagement/PlantsManagement";
 import AddPlants from "../pages/AddPlants/AddPlants";
+import ManageCategories from "../pages/ManageCategories/ManageCategories";
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             {
                 path: '/addPlants',
                 element: <AddPlants />,
+            },
+            {
+                path: '/manageCategories',
+                element: <ManageCategories />,
             },
            
         ]

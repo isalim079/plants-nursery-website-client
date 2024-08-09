@@ -3,6 +3,7 @@ import axiosPublic from "../../../../components/axiosPublic";
 import ButtonPrimary from "../../../../components/Button/ButtonPrimary";
 import Heading from "../../../../components/Heading/Heading";
 import SubHeading from "../../../../components/SubHeading/SubHeading";
+import { Link } from "react-router-dom";
 
 interface PlantCategory {
     categoryName: string;
@@ -46,12 +47,16 @@ const CategorySection = () => {
                             <h2 className="card-title text-textGreen">
                                 {category?.categoryName}
                             </h2>
-                            <p className="text-sm md:text-base">{category?.description}</p>
+                            <p className="text-sm md:text-base">
+                                {category?.description}
+                            </p>
                             <p className="font-semibold">
                                 {category?.priceRange}
                             </p>
                             <div className="card-actions">
-                                <ButtonPrimary>Show All</ButtonPrimary>
+                                <Link to={"/plants"}>
+                                    <ButtonPrimary>Show All</ButtonPrimary>
+                                </Link>
                             </div>
                         </div>
                     </div>

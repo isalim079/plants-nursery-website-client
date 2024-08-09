@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://nursery-website-server.vercel.app",
+        baseUrl: "http://localhost:5000",
     }),
     tagTypes: ["plant", "cart"],
     endpoints: (builder) => ({
@@ -28,6 +28,12 @@ export const baseApi = createApi({
             }),
             invalidatesTags: ["plant"],
         }),
+        deleteCategories: builder.mutation({
+            query: (id) => ({
+                url: `/plantCategories/${id}`,
+                method: "DELETE",
+            }),
+        }),
         addPlantToCart: builder.mutation({
             query: (data) => {
                 // console.log(data);
@@ -38,6 +44,16 @@ export const baseApi = createApi({
                 };
             },
             invalidatesTags: ["cart"],
+        }),
+        addCategories: builder.mutation({
+            query: (data) => {
+                // console.log(data);
+                return {
+                    url: "/plantCategories",
+                    method: "POST",
+                    body: data,
+                };
+            },
         }),
         addPlants: builder.mutation({
             query: (data) => ({
@@ -82,4 +98,6 @@ export const {
     useAddPlantsMutation,
     useDeletePlantsMutation,
     useUpdateIsCheckoutMutation,
+    useAddCategoriesMutation,
+    useDeleteCategoriesMutation,
 } = baseApi;
