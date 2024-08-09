@@ -13,8 +13,6 @@ import PlantsUpdateForm from "../PlantsUpdateForm/PlantsUpdateForm";
 import { useRef, useState } from "react";
 import CategoryForm from "../CategoryForm/CategoryForm";
 
-import ManageCategories from "../ManageCategories/ManageCategories";
-
 
 
 const PlantsManagement = () => {
